@@ -1,67 +1,12 @@
 <?php
+error_reporting(E_ALL);   
+ini_set('display_errors', 1);   
+ini_set('display_startup_errors', 1);
 $pageTitle = "Artikel";
 include 'inc/header.php';
+include 'inc/function_article.php';
 
-// Sample articles data (in real app, this would come from database)
-$articles = [
-    [
-        'id' => 1,
-        'title' => 'Tips Belajar Efektif untuk Ujian Nasional',
-        'category' => 'Pendidikan',
-        'excerpt' => 'Pelajari strategi dan teknik belajar yang efektif untuk menghadapi ujian nasional dengan percaya diri dan mendapatkan hasil terbaik.',
-           'author' => 'admin1',
-        'image' => 'graduation'
-    ],
-    [
-        'id' => 2,
-        'title' => 'Peran Teknologi dalam Pendidikan Modern',
-        'category' => 'Teknologi',
-        'excerpt' => 'Eksplorasi bagaimana teknologi digital mengubah cara kita belajar dan mengajar di era modern ini.',
-           'author' => 'admin2',
-        'image' => 'laptop'
-    ],
-    [
-        'id' => 3,
-        'title' => 'Cara Mengelola Waktu Belajar dengan Baik',
-        'category' => 'Tips & Trik',
-        'excerpt' => 'Panduan lengkap untuk mengatur waktu belajar agar lebih produktif dan efisien dalam mencapai tujuan akademik.',
-         'author' => 'admin3',
-        'image' => 'clock'
-    ],
-    [
-        'id' => 4,
-        'title' => 'Pentingnya Pendidikan Karakter di Sekolah',
-        'category' => 'Pendidikan',
-        'excerpt' => 'Memahami pentingnya pendidikan karakter dalam membentuk kepribadian siswa yang baik dan berakhlak mulia.',
-         'author' => 'admin4',
-        'image' => 'heart'
-    ],
-    [
-        'id' => 5,
-        'title' => 'Belajar Online: Kelebihan dan Tantangannya',
-        'category' => 'Teknologi',
-        'excerpt' => 'Analisis mendalam tentang pembelajaran online, termasuk kelebihan, kekurangan, dan cara mengoptimalkannya.',
-         'author' => 'admin5',
-        'image' => 'globe'
-    ],
-    [
-        'id' => 6,
-        'title' => 'Strategi Menghadapi Stress Saat Ujian',
-        'category' => 'Tips & Trik',
-        'excerpt' => 'Tips praktis untuk mengelola stress dan kecemasan saat menghadapi ujian agar tetap tenang dan fokus.',
-            'author' => 'adm',
-        'image' => 'meditation'
-    ]
-];
-
-$icons = [
-    'graduation' => 'fas fa-graduation-cap',
-    'laptop' => 'fas fa-laptop-code',
-    'clock' => 'fas fa-clock',
-    'heart' => 'fas fa-heart',
-    'globe' => 'fas fa-globe',
-    'book' => 'fas fa-book'
-];
+$articles = uhiha();
 
 ?>
 
@@ -78,33 +23,48 @@ $icons = [
             <h2>Artikel Terbaru</h2>
             <p>Jelajahi koleksi artikel kami yang informatif dan inspiratif</p>
         </div>
-        <div class="articles-grid" id="articlesGrid">
-    <?php foreach ($articles as $a): ?>
-        <div class="article-card"
-            data-title="<?= strtolower($a['title']) ?>"
-            data-category="<?= strtolower($a['category']) ?>">
 
-            <div class="article-image">
-                <i class="<?= $icons[$a['image']] ?? $icons['book'] ?>"></i>
+        <?php if (empty($articles)): ?>
+            <div class="no-articles">
+                <p>Tidak ada artikel yang tersedia saat ini.</p>
             </div>
+        <?php else: ?>
+            <div class="articles-grid">
+                <?php foreach ($articles as $a): ?>
+                    <div class="article-card">
+                        <?php if (!empty($a['gambar'])): ?>
+                            <div class="article-image">
+                                <img src="assets/image/<?= htmlspecialchars($a['gambar']) ?>" alt="<?= htmlspecialchars($a['judul']) ?>">
+                            </div>
+                        <?php endif; ?>
 
-            <div class="article-content">
-                <span class="article-category"><?= $a['category'] ?></span>
-                <h3 class="article-title"><?= $a['title'] ?></h3>
-                <p class="article-excerpt"><?= $a['excerpt'] ?></p>
+                        <div class="article-content">
+                            <h3 class="article-title"><?= htmlspecialchars($a['judul']) ?></h3>
 
-                <div class="article-meta">
-                    <div class="article-date">
-                       </div>
-                    <a href="detail_article.php?id=<?= $a['id'] ?>" class="read-more">
-                        Baca Selengkapnya <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
+                            <?php
+                            $preview = strip_tags($a['isi']);
+                            if (strlen($preview) > 200) {
+                                $preview = substr($preview, 0, 200) . '...';
+                            }
+                            ?>
+                            <p class="article-preview"><?= htmlspecialchars($preview) ?></p>
+
+                            <div class="article-meta">
+                                <div class="article-date">
+                                    <i class="far fa-calendar"></i>
+                                    <span><?= date('d M Y', strtotime($a['tanggal'])) ?></span>
+                                </div>
+
+                                <a href="detail_article.php?id=<?= $a['id'] ?>" class="read-more">
+                                    Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
-        </div>
-    <?php endforeach; ?>
-    </div>
-
+        <?php endif; ?>
     </div>
 </div>
+
 <?php include 'inc/footer.php'; ?>
