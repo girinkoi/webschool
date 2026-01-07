@@ -1,5 +1,7 @@
 <?php
 $pageTitle = "Beranda";
+include 'inc/functions.php';
+
 ?>
 
 <!doctype html>
@@ -82,7 +84,7 @@ $pageTitle = "Beranda";
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="https://naevaschool.naevaweb.my.id/userfiles/uploads/img-edukasi-64.jpg" class="d-block w-100" alt="...">
+                <img src="https://naevaschool.naevaweb.my.id/userfiles/uploads/img-edukasi-5-4.jpg" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
                 <img src="https://naevaschool.naevaweb.my.id/userfiles/uploads/img-edukasi-5-4.jpg" class="d-block w-100" alt="...">
@@ -153,13 +155,13 @@ $pageTitle = "Beranda";
                     <div id="carouselGallery" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="https://naevaschool.naevaweb.my.id/userfiles/uploads/img-edukasi-64.jpg" class="d-block w-100 rounded" alt="...">
+                                <img src="<?php echo get_galery_by_id(1); ?>" class="d-block w-100 rounded" alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="https://naevaschool.naevaweb.my.id/userfiles/uploads/img-edukasi-5-4.jpg" class="d-block w-100 rounded" alt="...">
+                                <img src="<?php echo get_galery_by_id(2); ?>" class="d-block w-100 rounded" alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="https://naevaschool.naevaweb.my.id/userfiles/uploads/img-edukasi-57.jpg" class="d-block w-100 rounded" alt="...">
+                                <img src="<?php echo get_galery_by_id(3); ?>" class="d-block w-100 rounded" alt="...">
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselGallery" data-bs-slide="prev">
